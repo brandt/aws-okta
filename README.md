@@ -135,12 +135,19 @@ export AWS_SESSION_TTL=1h
 export AWS_ASSUME_ROLE_TTL=1h
 ```
 
-The AWS assume role TTL can also be set per-profile in the aws config:
+The Okta session TTL can alternatively be set in the `[okta]` section of your aws config:
+
+```ini
+[okta]
+aws_saml_url = home/amazon_aws/cuZGoka9dAIFcyG0UllG/214
+session_ttl = 12h
+```
+
+The AWS assume role TTL can be set per-profile in the aws config:
 
 ```ini
 # example with a role that's configured with a max session duration of 12 hours
 [profile ttldemo]
-aws_saml_url = home/amazon_aws/cuZGoka9dAIFcyG0UllG/214
 role_arn = arn:aws:iam::<account-id>:role/<okta-role-name>
 assume_role_ttl = 12h
 ```

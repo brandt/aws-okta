@@ -49,10 +49,17 @@ func envRun(cmd *cobra.Command, args []string) error {
 
 	updateMfaConfig(cmd, profiles, profile, &mfaConfig)
 
+	// check for a session_ttl in the "okta" profile if we don't have a more explicit one
+	if !cmd.Flags().Lookup("session-ttl").Changed {
+		if err := updateDurationFromConfigProfile(profiles, "okta", "session_ttl", &sessionTTL); err != nil {
+			fmt.Fprintln(os.Stderr, "warning: could not parse session_ttl duration from profile config")
+		}
+	}
+
 	// check for an assume_role_ttl in the profile if we don't have a more explicit one
 	if !cmd.Flags().Lookup("assume-role-ttl").Changed {
-		if err := updateDurationFromConfigProfile(profiles, profile, &assumeRoleTTL); err != nil {
-			fmt.Fprintln(os.Stderr, "warning: could not parse duration from profile config")
+		if err := updateDurationFromConfigProfile(profiles, profile, "assume_role_ttl", &assumeRoleTTL); err != nil {
+			fmt.Fprintln(os.Stderr, "warning: could not parse assume_role_ttl duration from profile config")
 		}
 	}
 
