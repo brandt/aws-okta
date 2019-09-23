@@ -188,7 +188,7 @@ func execRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	roleARN, err := p.GetRoleARN()
+	roleARN, err := p.GetRoleARN(&creds)
 	if err != nil {
 		return err
 	}
